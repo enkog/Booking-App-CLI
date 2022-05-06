@@ -1,6 +1,7 @@
 package main
 
 import (
+	"booking/helper"
 	"fmt"
 	"strings"
 )
@@ -16,13 +17,13 @@ func main()  {
 	for {
 		firstName, lastName, email, userTickets := getUserInput()
 
-		isValidName, isValidEmail, isValidTicketNumber := validateUserInput(firstName, lastName, email, userTickets)
+		isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidName && isValidEmail && isValidTicketNumber {		
 			bookTicket(userTickets, firstName, lastName, email)
 
 			firstNames := getFirstNames()
-			
+
 			fmt.Printf("These are all our bookings: %v\n", firstNames)
 
 			if remainingTickets == 0 {
@@ -38,7 +39,7 @@ func main()  {
 				fmt.Println("The email address you entered does not contain @ sign")
 			}
 
-			if !isValidEmail {
+			if !isValidTicketNumber {
 				fmt.Println("The number of tickets you entered is invalid")
 			}
 		}	
@@ -60,12 +61,7 @@ func getFirstNames() []string {
 	return firstNames
 }
 
-func validateUserInput(fName string, lName string, email string, userTickets uint) (bool, bool, bool) {
-	isValidName := len(fName) >= 2 && len(lName) >= 2
-	isValidEmail := strings.Contains(email, "@")
-	isValidTicketNumber := userTickets > 0 && userTickets <= remainingTickets
-	return isValidName, isValidEmail, isValidTicketNumber
-}
+
 
 func getUserInput() (string, string, string, uint) {
 	var firstName string
